@@ -25,3 +25,33 @@ Create a simple stack object such that the following unit tests would pass.
  */
 
 
+/*
+* A simple object for maintaining a stack of objects
+* In LIFO order
+*/
+public class Stack {
+	
+	Object[] s = null;
+
+	public Stack(int size) {
+		s = new Object[size];
+	}
+
+	/* 
+	* Return the last object added to the stack
+	*/
+	public Object pop() {
+		if(s.length > 0) {
+			return s[s.length - 1];
+		} else {
+			return null;
+		}
+	}
+
+	/*
+	* Add an object to the stack
+	*/
+	public void push(Object o) {
+		s[s.length] = o;
+	}
+}
