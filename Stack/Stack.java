@@ -29,12 +29,14 @@ Create a simple stack object such that the following unit tests would pass.
 * A simple object for maintaining a stack of objects
 * In LIFO order
 */
+import java.util.Arrays;
+
 public class Stack {
 	
 	Object[] s = null;
 
-	public Stack(int size) {
-		s = new Object[size];
+	public Stack() {
+		s = new Object[0];
 	}
 
 	/* 
@@ -42,7 +44,9 @@ public class Stack {
 	*/
 	public Object pop() {
 		if(s.length > 0) {
-			return s[s.length - 1];
+			Object o = s[s.length - 1];
+ 			s = Arrays.copyOf(s, s.length - 1);
+ 			return o;
 		} else {
 			return null;
 		}
@@ -52,6 +56,11 @@ public class Stack {
 	* Add an object to the stack
 	*/
 	public void push(Object o) {
-		s[s.length] = o;
+ 		s = Arrays.copyOf(s, s.length + 1);
+ 		s[s.length-1] = o;
+	}
+
+	public int size() {
+		return s.length;
 	}
 }
