@@ -16,6 +16,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+
+import javax.json.*;
  
 @Path("/guess")
 public class GuessNumberService {
@@ -40,24 +42,27 @@ public class GuessNumberService {
 		}
 
  		String res = gm.makeGuess(g, gameIdInt);
- 		if(res.equals("bingo")) {
+ 	   	JsonObject json = Json.createObjectBuilder().add("resp", res).build();
+  		
+  		if(res.equals("bingo")) {
  			gm.endGame(gameIdInt);
  		}
 
 		// return HTTP response 
-		return Response.status(200).header("game-id", gameIdInt.toString()).entity(res).build();
+		return Response.status(200).header("game-id", gameIdInt.toString()).entity(json.toString()).build();
 	}
 
 	@GET
 	@Path("/start")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response startGame() {
-		String result = "I have chosen a number, begin guessing.";
  		GameManager gm = GameManager.getInstance();
 		Integer gameIdInt = gm.startGame();
 
+ 	   	JsonObject json = Json.createObjectBuilder().add("resp", "I have chosen a number, begin guessing").build();
+
 		// return HTTP response 200 in case of success
-		return Response.status(200).header("game-id", gameIdInt.toString()).entity(result).build();
+		return Response.status(200).header("game-id", gameIdInt.toString()).entity(json.toString()).build();
 	}
   
 	@GET
