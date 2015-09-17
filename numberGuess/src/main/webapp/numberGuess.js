@@ -1,5 +1,5 @@
 angular.module('numberGuessApp', [])
-  .controller('GuessEntryController', function($scope, $http) {
+  .controller('GuessEntryController', function($scope, $rootScope, $http) {
     var numberGuess = this;
     numberGuess.startGame = function() {
     	var url = "/api/guess/start";
@@ -7,16 +7,20 @@ angular.module('numberGuessApp', [])
    		responsePromise.success(function(data, status, headers, config) {
    			$scope.serverResponse = data.resp;
    			var gameId = headers("game-id");
-   			$httpProvider.defaults.headers.get = { 'My-ame-id' : gameId };
+        $rootScope.game_id = gameId;
+
     	});
     	responsePromise.error(function(data, status, headers, config) {
     		alert("An error occurred.");
     	});
 
     };
-    numberGuess.makeGuess = function(guess) {
-    	var url = "/api/guess/" + guess;
-   		var responsePromise = $http.get(url);
+    numberGuess.makeGuess = function() {
+    	var url = "/api/guess/" + $scope.youGuess;
+      var config = {
+        'headers': { 'game-id' : $rootScope.game_id }
+      }
+   		var responsePromise = $http.get(url, config);
    		responsePromise.success(function(data, status, headers, config) {
    			$scope.serverResponse = data.resp;
     	});

@@ -7,11 +7,11 @@
   <body>
     <div ng-controller="GuessEntryController as numberGuess">
       <form name="numberGuess.makeGuess()">      
-        <label>Start a new game!</label>
-        <button class="btn-primary" ng-click="numberGuess.startGame()"/>Start Game</button>
         <label>Guess:</label>
         <input type="text" ng-model="youGuess" placeholder="Enter your guess here">
         <button class="btn-primary" ng-click="numberGuess.makeGuess()"/>Make Guess</button>
+        <label>Start a new game!</label>
+        <button class="btn-primary" ng-click="numberGuess.startGame()"/>Start Game</button>
         <hr>
           <h1>Response: {{serverResponse}}!</h1>
       </form>
