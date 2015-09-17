@@ -60,6 +60,21 @@ public class GameManager {
 		}
 	}
 
+	public Integer getGameValue(Integer gameId) {
+		Integer keyObj = null;
+		for (Integer i : games.keySet()) {
+			if(((Integer)i).intValue() == gameId.intValue()) {
+				keyObj = i;
+				break;
+			}
+		}
+		if(keyObj != null) {
+			Integer gameVal = (Integer)games.get(keyObj);
+			return gameVal;
+		}
+		return null;
+	}
+
 	public String makeGuess(Integer gameId, Integer guess) {
 		//Cover that no game exists
 		String answer = "Invalid game!";
@@ -67,17 +82,21 @@ public class GameManager {
 		Map<Integer, Integer> games = getGames();
 
 		if(games != null) {
-			Integer gameValue = (Integer)games.get(gameId);
+			Integer gameValue = getGameValue(gameId);
 			if(gameValue != null) {
-				if(gameValue == guess) {
+				if(gameValue.intValue() == guess.intValue()) {
 					answer = "bingo";
-				} else if(gameValue > guess) {
-					answer = "lower"; 
+				} else if(gameValue.intValue() > guess.intValue()) {
+					answer = "higher"; 
 				} else {
-					answer = "higher";
+					answer = "lower";
 				}
 			}
 		}
 		return answer;
+	}
+
+	public Integer getCeiling() {
+		return new Integer(this.ceiling);
 	}
 }
