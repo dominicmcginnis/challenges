@@ -41,7 +41,7 @@ public class GuessNumberService {
 			gameIdInt = new Integer(gameIdStr);
 		}
 
- 		String res = gm.makeGuess(g, gameIdInt);
+ 		String res = gm.makeGuess(gameIdInt, g);
  	   	JsonObject json = Json.createObjectBuilder().add("resp", res).build();
   		
   		if(res.equals("bingo")) {
@@ -59,7 +59,7 @@ public class GuessNumberService {
  		GameManager gm = GameManager.getInstance();
 		Integer gameIdInt = gm.startGame();
 
- 	   	JsonObject json = Json.createObjectBuilder().add("resp", "I have chosen a number, begin guessing").build();
+ 	   	JsonObject json = Json.createObjectBuilder().add("resp", "I have chosen a number between 0 and " + gm.getCeiling() + ", begin guessing!").build();
 
 		// return HTTP response 200 in case of success
 		return Response.status(200).header("game-id", gameIdInt.toString()).entity(json.toString()).build();
